@@ -2,7 +2,8 @@ name: Update LICENSE year
 
 on:
   schedule:
-    - cron: '5 0 1 1 *'
+    # Midnight in Europe/Paris on January 1 (CET, UTC+1).
+    - cron: '0 23 31 12 *'
   workflow_dispatch:
 
 permissions:
@@ -18,7 +19,7 @@ jobs:
       - name: Bump copyright year
         id: bump
         run: |
-          year="$(date -u +%Y)"
+          year="$(TZ=Europe/Paris date +%Y)"
           echo "Current year: $year"
           before="$(grep -E '^Copyright \(c\) [0-9]{4} Skuads' LICENSE || true)"
           sed -i -E "s/^Copyright \(c\) [0-9]{4} Skuads/Copyright (c) ${year} Skuads/" LICENSE
@@ -35,5 +36,5 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add LICENSE
-          git commit -m "chore(license): bump copyright year to $(date -u +%Y)"
+          git commit -m "chore(license): bump copyright year to $(TZ=Europe/Paris date +%Y)"
           git push
