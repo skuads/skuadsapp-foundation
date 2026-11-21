@@ -2,8 +2,9 @@ name: Update LICENSE year
 
 on:
   schedule:
-    # Midnight in Europe/Paris on January 1 (CET, UTC+1).
-    - cron: '0 23 31 12 *'
+    # 00:17 in Europe/Paris on January 1 (CET, UTC+1), with a fallback at 10:41 that does nothing once the year is current.
+    - cron: '17 23 31 12 *'
+    - cron: '41 9 1 1 *'
   workflow_dispatch:
 
 permissions:
